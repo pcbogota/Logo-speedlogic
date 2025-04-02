@@ -80,3 +80,7 @@ $slChars += "$($tc.bg.wht)          $($SL_iconStart)$c$c$c$c$c$c$c$($tc.txt.rst)
 $slChars += "$($tc.bg.wht)                                                                                                                                           $($tc.rst)"
 
 Write-Host $slChars
+
+Write-Host "`n`n>> Eng: If it doesn't look right, make this window wider or maximize it."
+Write-Host ">> Esp: Si no se ve bien, haz esta ventana más ancha o maximízala."
+Write-Host "By ChyBeat @ PCBogota"
