@@ -1,86 +1,80 @@
-$c = $([char]9608) #centro
-$d = $([char]9612) #mitad derecha vacio
-$i = $([char]9616) #mitad izquierda vacio
+$s = $([char]9608) # Square Character
+$r = $([char]9612) # Square Character with transparent mid-right
+$l = $([char]9616) # Square Character with transparent mid-left
 
-$global:Tc = [PSCustomObject]@{
-	bg  = [PSCustomObject]@{
-		blk = "$([char]0x1b)[48;5;0m" #fondo black/negro
-		wht = "$([char]0x1b)[48;5;255m" #Fondo blanco
-		red = "$([char]0x1b)[48;5;124m" #Fondo Rojo
-		grn = "$([char]0x1b)[48;5;22m" #Texto verde
-		rst = "$([char]0x1b)[49m" # Resetear solo el fondo
+# Terminal Colors object
+$tc = [PSCustomObject]@{
+	bg  = [PSCustomObject]@{ # Backgound relative commands
+		rst = "$([char]0x1b)[49m" # Default background color
+		wht = "$([char]0x1b)[48;5;255m" # White Background
 	}
-	txt = [PSCustomObject]@{
-		blk  = "$([char]0x1b)[38;5;16m" #Texto en negro
-		blu  = "$([char]0x1b)[38;5;39m" #texto en azul
-		cyn  = "$([char]0x1b)[38;5;51m" #Texto Azul Claro
-		grn  = "$([char]0x1b)[38;5;154m" #Texto verde
-		red  = "$([char]0x1b)[38;5;196m" #Texto rojo
-		wht  = "$([char]0x1b)[38;5;15m" #Texto Blanco
-		ylw  = "$([char]0x1b)[38;5;228m" #Texto amarillo
-
-		blnk = "$([char]0x1b)[6m" # texto intermitente rápido
-		bold = "$([char]0x1b)[1m" #Texto en negrita
-		invt = "$([char]0x1b)[7m" #Colores invertidos
-		itlc = "$([char]0x1b)[3m" #texto en cursiva
-		opaq = "$([char]0x1b)[2m" #Texto opaco
-		undr = "$([char]0x1b)[4m" #Colores invertidos
-
-		rst  = "$([char]0x1b)[39m" # Resetear solo el texto
+	txt = [PSCustomObject]@{ # Text relative commands
+		blk = "$([char]0x1b)[38;5;16m" # Black text
+		blu = "$([char]0x1b)[38;5;27m" # Blue text
+		cyn = "$([char]0x1b)[38;5;75m" # Cyan text
+		lbl = "$([char]0x1b)[38;5;17m" # Light Blue text
+		rst = "$([char]0x1b)[39m" # Default Text Color
 	}
-	rst = "$([char]0x1b)[0m"
+	rst = "$([char]0x1b)[0m" # Default backgound and text colors
 }
 
-$SL_iconStart = $tc.txt.blk
+# Icon Area
+$SL_icon_S = $tc.txt.blk
 $SL_iconBorder = $tc.txt.blk
-$SL_iconborderBright_1 = "$([char]0x1b)[38;5;17m"
-$SL_iconborderBright_2 = "$([char]0x1b)[38;5;27m"
-$SL_iconborderBright_3 = "$([char]0x1b)[38;5;75m"
-$SL_Logo_txt = $($tc.txt.blk)
-$SL_Logo_S = $SL_Logo_txt
-$SL_Logo_P = $SL_Logo_txt
-$SL_Logo_E1 = $SL_Logo_txt
-$SL_Logo_E2 = $SL_Logo_txt
-$SL_Logo_D = $SL_Logo_txt
-$SL_Logo_L = $SL_Logo_txt
-$SL_Logo_O = $SL_Logo_txt
-$SL_Logo_G = $SL_Logo_txt
-$SL_Logo_I = $SL_Logo_txt
-$SL_Logo_C = $SL_Logo_txt
+$SL_iconBorderBright_1 = $tc.txt.lbl
+$SL_iconBorderBright_2 = $tc.txt.blu
+$SL_iconBorderBright_3 = $tc.txt.cyn
 
-# Show-Colors : Function that may be not exist in this context, maybe run fron PCBogota Project can show colors
+# Letters Area
+$SL_Logo_S = $tc.txt.blk
+$SL_Logo_P = $tc.txt.blk
+$SL_Logo_E1 = $tc.txt.blk
+$SL_Logo_E2 = $tc.txt.blk
+$SL_Logo_D = $tc.txt.blk
+$SL_Logo_L = $tc.txt.blk
+$SL_Logo_O = $tc.txt.blk
+$SL_Logo_G = $tc.txt.blk
+$SL_Logo_I = $tc.txt.blk
+$SL_Logo_C = $tc.txt.blk
+
+# Show-Colors : Function that may be not exist in this context, maybe run fron PCBogota Project to show the '$[char]' code  color list
+
+# Padding Top
 $slChars = "$($tc.bg.wht)                                                                                                                                           $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)                                $($SL_iconStart)$c$c$c$c$c$c$c                                                                                                    $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)                   $($SL_iconBorder)$c$c$c$c$c$c$c$c   $($SL_iconStart)$c$c$c$c$c$c$c$c$($tc.txt.rst)                                                                                                     $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)                 $($SL_iconBorder)$c$c$c$c$c$c$c$c   $($SL_iconStart)$c$c$c$c$c$c$c$c$($tc.txt.rst)                                                                                                       $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)               $($SL_iconBorder)$c$c$c$c$c      $($SL_iconStart)$c$c$c$c$c$c$c$c$($tc.txt.rst)                                                                                                         $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)             $($SL_iconBorder)$c$c$c$c$c      $($SL_iconStart)$c$c$c$c$c$c$c$c$($tc.txt.rst)                                                                                                           $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)           $($SL_iconBorder)$c$c$c$c$c      $($SL_iconStart)$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_iconBorder)$c$c$c$c                                                                                                       $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)         $($SL_iconBorder)$c$c$c$c$c$c     $($SL_iconStart)$c$c$c$c$c$c$c$c$c$($tc.txt.rst)   $($SL_iconBorder)$c$c$c$c$c$c                                                                                                     $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)       $($SL_iconBorder)$c$c$c$c$c$c     $($SL_iconStart)$c$c$c$c$c$c$c$c$c$($tc.txt.rst)       $($SL_iconBorder)$c$c$c$c$c$c$($tc.txt.rst)            $($SL_Logo_S)$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_P)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_Logo_E1)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_E2)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_D)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)   $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)      $($SL_iconBorder)$c$c$c$c$c$c    $($SL_iconStart)$c$c$c$c$c$c$c$c$c$($tc.txt.rst)           $($SL_iconBorder)$c$c$c$c$c$c$($tc.txt.rst)        $($SL_Logo_S)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_P)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_E1)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_E2)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_D)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst) $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)    $($SL_iconBorder)$c$c$c$c$c$c    $($SL_iconStart)$c$c$c$c$c$c$c$c$c$($tc.txt.rst)              $($SL_iconBorder)$c$c$c$c$c$c$($tc.txt.rst)       $($SL_Logo_S)$c$c$c$c$c$($tc.txt.rst)                       $($SL_Logo_P)$c$c$c$c$c$c$($tc.txt.rst)                                                 $($SL_Logo_D)$c$c$c$c$c$($tc.txt.rst) $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)   $($SL_iconBorder)$c$c$c$c$c$c    $($SL_iconStart)$c$c$c$c$c$c$c$c      $i$c$c$c$c$c$c$c$d$($tc.txt.rst)    $($SL_iconBorder)$c$c$c$c$c$c$($tc.txt.rst)    $($SL_Logo_S)$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_Logo_P)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_E1)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_E2)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)              $($SL_Logo_D)$c$c$c$c$c$($tc.txt.rst) $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)  $($SL_iconborderBright_1)$c$c$c$c$c     $($SL_iconStart)$c$c$c$c$c$c$c$c     $c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)     $($SL_iconborderBright_1)$c$c$c$c$c$($tc.txt.rst)     $($SL_Logo_S)$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_P)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_Logo_E1)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_E2)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)              $($SL_Logo_D)$c$c$c$c$c$($tc.txt.rst) $($tc.rst)`n"
-$slChars += "$($tc.bg.wht) $($SL_iconborderBright_2)$c$c$c$c$c$($SL_iconStart)     $c$c$c$c$c$c$c$c    $c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_iconborderBright_2)$c$c$c$c$c$($tc.txt.rst)             $($SL_Logo_S)$c$c$c$c$($tc.txt.rst)  $($SL_Logo_P)$c$c$c$c$c$c$($tc.txt.rst)                                                            $($SL_Logo_D)$c$c$c$c$c $($tc.rst)`n"
-$slChars += "$($tc.bg.wht) $($SL_iconborderBright_3)$c$c$c$c$c$($SL_iconStart)    $c$c$c$c$c$c$c$c   $c$c$c$c$c$c$c   $c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_iconborderBright_3)$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_S)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_P)$c$c$c$c$c$c$($tc.txt.rst)             $($SL_Logo_E1)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_E2)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_D)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst) $($tc.rst)`n"
-$slChars += "$($tc.bg.wht) $($SL_iconborderBright_2)$c$c$c$c$c$($SL_iconStart)    $c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c    $c$c$c$c$c$c$c$c$($tc.txt.rst)     $($SL_iconborderBright_2)$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_S)$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_Logo_P)$c$c$c$c$c$c$($tc.txt.rst)             $($SL_Logo_E1)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_E2)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_D)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)   $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)  $($SL_iconborderBright_1)$c$c$c$c$c     $($SL_iconStart)$c$c$c$c$c$c$c$c$c$c$c$c     $c$c$c$c$c$c$c$c$($tc.txt.rst)     $($SL_iconborderBright_1)$c$c$c$c$c$($tc.txt.rst)                                                                                            $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)   $($SL_iconBorder)$c$c$c$c$c$c    $($SL_iconStart)$i$c$c$c$c$c$c$c$d     $i$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_iconBorder)$c$c$c$c$c$c$($tc.txt.rst)        $($SL_Logo_L)$c$c$c$c$c$($tc.txt.rst)              $($SL_Logo_O)$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)      $($SL_Logo_G)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_I)$c$c$c$c$c$($tc.txt.rst)    $($SL_Logo_C)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)       $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)      $($SL_iconBorder)$c$c$c$c$c$c              $($SL_iconStart)$c$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_iconBorder)$c$c$c$c$c$c$($tc.txt.rst)         $($SL_Logo_L)$c$c$c$c$c$($tc.txt.rst)            $($SL_Logo_O)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_G)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_I)$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_C)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)       $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)       $($SL_iconBorder)$c$c$c$c$c$c           $($SL_iconStart)$c$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_iconBorder)$c$c$c$c$c$c$($tc.txt.rst)           $($SL_Logo_L)$c$c$c$c$c$($tc.txt.rst)            $($SL_Logo_O)$c$c$c$c$c      $c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_G)$c$c$c$c$c$c$($tc.txt.rst)             $($SL_Logo_I)$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_C)$c$c$c$c$c$($tc.txt.rst)                   $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)         $($SL_iconBorder)$c$c$c$c$c$c       $($SL_iconStart)$c$c$c$c$c$c$c$c$c$($tc.txt.rst)     $($SL_iconBorder)$c$c$c$c$c$c$($tc.txt.rst)            $($SL_Logo_L)$c$c$c$c$c$($tc.txt.rst)            $($SL_Logo_O)$c$c$c$c$c      $c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_G)$c$c$c$c$c$c$($tc.txt.rst)             $($SL_Logo_I)$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_C)$c$c$c$c$c$($tc.txt.rst)                   $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)           $($SL_iconBorder)$c$c$c$c$c$c   $($SL_iconStart)$c$c$c$c$c$c$c$c$c$($tc.txt.rst)     $($SL_iconBorder)$c$c$c$c$c$c$($tc.txt.rst)              $($SL_Logo_L)$c$c$c$c$c$($tc.txt.rst)            $($SL_Logo_O)$c$c$c$c$c      $c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_G)$c$c$c$c$c$c      $c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_I)$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_C)$c$c$c$c$c$($tc.txt.rst)                   $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)            $($SL_iconBorder) $c$c$c$c  $($SL_iconStart)$c$c$c$c$c$c$c$c$($tc.txt.rst)      $($SL_iconBorder)$c$c$c$c$c$($tc.txt.rst)                $($SL_Logo_L)$c$c$c$c$c$($tc.txt.rst)            $($SL_Logo_O)$c$c$c$c$c      $c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_G)$c$c$c$c$c$c      $c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_I)$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_C)$c$c$c$c$c$($tc.txt.rst)                   $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)                 $($SL_iconStart)$c$c$c$c$c$c$c$c      $($SL_iconBorder)$c$c$c$c$c$($tc.txt.rst)                  $($SL_Logo_L)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_O)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_G)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_I)$c$c$c$c$c$($tc.txt.rst)  $($SL_Logo_C)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)       $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)               $($SL_iconStart)$c$c$c$c$c$c$c$c      $($SL_iconBorder)$c$c$c$c$c$($tc.txt.rst)                     $($SL_Logo_L)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_Logo_O)$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)       $($SL_Logo_G)$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)    $($SL_Logo_I)$c$c$c$c$c$($tc.txt.rst)    $($SL_Logo_C)$c$c$c$c$c$c$c$c$c$c$c$c$c$c$c$($tc.txt.rst)       $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)             $($SL_iconStart)$c$c$c$c$c$c$c$c   $($SL_iconBorder)$c$c$c$c$c$c$c$c$($tc.txt.rst)                                                                                                           $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)           $($SL_iconStart)$c$c$c$c$c$c$c$c   $($SL_iconBorder)$c$c$c$c$c$c$c$c$($tc.txt.rst)                                                                                                             $($tc.rst)`n"
-$slChars += "$($tc.bg.wht)          $($SL_iconStart)$c$c$c$c$c$c$c$($tc.txt.rst)                                                                                                                          $($tc.rst)`n"
+
+
+$slChars += "$($tc.bg.wht)                                $($SL_icon_S)$s$s$s$s$s$s$s                                                                                                    $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)                   $($SL_iconBorder)$s$s$s$s$s$s$s$s   $($SL_icon_S)$s$s$s$s$s$s$s$s$($tc.txt.rst)                                                                                                     $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)                 $($SL_iconBorder)$s$s$s$s$s$s$s$s   $($SL_icon_S)$s$s$s$s$s$s$s$s$($tc.txt.rst)                                                                                                       $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)               $($SL_iconBorder)$s$s$s$s$s      $($SL_icon_S)$s$s$s$s$s$s$s$s$($tc.txt.rst)                                                                                                         $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)             $($SL_iconBorder)$s$s$s$s$s      $($SL_icon_S)$s$s$s$s$s$s$s$s$($tc.txt.rst)                                                                                                           $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)           $($SL_iconBorder)$s$s$s$s$s      $($SL_icon_S)$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_iconBorder)$s$s$s$s                                                                                                       $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)         $($SL_iconBorder)$s$s$s$s$s$s     $($SL_icon_S)$s$s$s$s$s$s$s$s$s$($tc.txt.rst)   $($SL_iconBorder)$s$s$s$s$s$s                                                                                                     $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)       $($SL_iconBorder)$s$s$s$s$s$s     $($SL_icon_S)$s$s$s$s$s$s$s$s$s$($tc.txt.rst)       $($SL_iconBorder)$s$s$s$s$s$s$($tc.txt.rst)            $($SL_Logo_S)$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_P)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_Logo_E1)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_E2)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_D)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)   $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)      $($SL_iconBorder)$s$s$s$s$s$s    $($SL_icon_S)$s$s$s$s$s$s$s$s$s$($tc.txt.rst)           $($SL_iconBorder)$s$s$s$s$s$s$($tc.txt.rst)        $($SL_Logo_S)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_P)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_E1)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_E2)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_D)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst) $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)    $($SL_iconBorder)$s$s$s$s$s$s    $($SL_icon_S)$s$s$s$s$s$s$s$s$s$($tc.txt.rst)              $($SL_iconBorder)$s$s$s$s$s$s$($tc.txt.rst)       $($SL_Logo_S)$s$s$s$s$s$($tc.txt.rst)                       $($SL_Logo_P)$s$s$s$s$s$s$($tc.txt.rst)                                                 $($SL_Logo_D)$s$s$s$s$s$($tc.txt.rst) $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)   $($SL_iconBorder)$s$s$s$s$s$s    $($SL_icon_S)$s$s$s$s$s$s$s$s      $l$s$s$s$s$s$s$s$r$($tc.txt.rst)    $($SL_iconBorder)$s$s$s$s$s$s$($tc.txt.rst)    $($SL_Logo_S)$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_Logo_P)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_E1)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_E2)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)              $($SL_Logo_D)$s$s$s$s$s$($tc.txt.rst) $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)  $($SL_iconBorderBright_1)$s$s$s$s$s     $($SL_icon_S)$s$s$s$s$s$s$s$s     $s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)     $($SL_iconBorderBright_1)$s$s$s$s$s$($tc.txt.rst)     $($SL_Logo_S)$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_P)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_Logo_E1)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_E2)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)              $($SL_Logo_D)$s$s$s$s$s$($tc.txt.rst) $($tc.rst)`n"
+$slChars += "$($tc.bg.wht) $($SL_iconBorderBright_2)$s$s$s$s$s$($SL_icon_S)     $s$s$s$s$s$s$s$s    $s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_iconBorderBright_2)$s$s$s$s$s$($tc.txt.rst)             $($SL_Logo_S)$s$s$s$s$($tc.txt.rst)  $($SL_Logo_P)$s$s$s$s$s$s$($tc.txt.rst)                                                            $($SL_Logo_D)$s$s$s$s$s $($tc.rst)`n"
+$slChars += "$($tc.bg.wht) $($SL_iconBorderBright_3)$s$s$s$s$s$($SL_icon_S)    $s$s$s$s$s$s$s$s   $s$s$s$s$s$s$s   $s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_iconBorderBright_3)$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_S)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_P)$s$s$s$s$s$s$($tc.txt.rst)             $($SL_Logo_E1)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_E2)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_D)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst) $($tc.rst)`n"
+$slChars += "$($tc.bg.wht) $($SL_iconBorderBright_2)$s$s$s$s$s$($SL_icon_S)    $s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s    $s$s$s$s$s$s$s$s$($tc.txt.rst)     $($SL_iconBorderBright_2)$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_S)$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_Logo_P)$s$s$s$s$s$s$($tc.txt.rst)             $($SL_Logo_E1)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_E2)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_D)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)   $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)  $($SL_iconBorderBright_1)$s$s$s$s$s     $($SL_icon_S)$s$s$s$s$s$s$s$s$s$s$s$s     $s$s$s$s$s$s$s$s$($tc.txt.rst)     $($SL_iconBorderBright_1)$s$s$s$s$s$($tc.txt.rst)                                                                                            $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)   $($SL_iconBorder)$s$s$s$s$s$s    $($SL_icon_S)$l$s$s$s$s$s$s$s$r     $l$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_iconBorder)$s$s$s$s$s$s$($tc.txt.rst)        $($SL_Logo_L)$s$s$s$s$s$($tc.txt.rst)              $($SL_Logo_O)$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)      $($SL_Logo_G)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_I)$s$s$s$s$s$($tc.txt.rst)    $($SL_Logo_C)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)       $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)      $($SL_iconBorder)$s$s$s$s$s$s              $($SL_icon_S)$s$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_iconBorder)$s$s$s$s$s$s$($tc.txt.rst)         $($SL_Logo_L)$s$s$s$s$s$($tc.txt.rst)            $($SL_Logo_O)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_G)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_I)$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_C)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)       $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)       $($SL_iconBorder)$s$s$s$s$s$s           $($SL_icon_S)$s$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_iconBorder)$s$s$s$s$s$s$($tc.txt.rst)           $($SL_Logo_L)$s$s$s$s$s$($tc.txt.rst)            $($SL_Logo_O)$s$s$s$s$s      $s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_G)$s$s$s$s$s$s$($tc.txt.rst)             $($SL_Logo_I)$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_C)$s$s$s$s$s$($tc.txt.rst)                   $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)         $($SL_iconBorder)$s$s$s$s$s$s       $($SL_icon_S)$s$s$s$s$s$s$s$s$s$($tc.txt.rst)     $($SL_iconBorder)$s$s$s$s$s$s$($tc.txt.rst)            $($SL_Logo_L)$s$s$s$s$s$($tc.txt.rst)            $($SL_Logo_O)$s$s$s$s$s      $s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_G)$s$s$s$s$s$s$($tc.txt.rst)             $($SL_Logo_I)$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_C)$s$s$s$s$s$($tc.txt.rst)                   $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)           $($SL_iconBorder)$s$s$s$s$s$s   $($SL_icon_S)$s$s$s$s$s$s$s$s$s$($tc.txt.rst)     $($SL_iconBorder)$s$s$s$s$s$s$($tc.txt.rst)              $($SL_Logo_L)$s$s$s$s$s$($tc.txt.rst)            $($SL_Logo_O)$s$s$s$s$s      $s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_G)$s$s$s$s$s$s      $s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_I)$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_C)$s$s$s$s$s$($tc.txt.rst)                   $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)            $($SL_iconBorder) $s$s$s$s  $($SL_icon_S)$s$s$s$s$s$s$s$s$($tc.txt.rst)      $($SL_iconBorder)$s$s$s$s$s$($tc.txt.rst)                $($SL_Logo_L)$s$s$s$s$s$($tc.txt.rst)            $($SL_Logo_O)$s$s$s$s$s      $s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_G)$s$s$s$s$s$s      $s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_I)$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_C)$s$s$s$s$s$($tc.txt.rst)                   $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)                 $($SL_icon_S)$s$s$s$s$s$s$s$s      $($SL_iconBorder)$s$s$s$s$s$($tc.txt.rst)                  $($SL_Logo_L)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_O)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_G)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_I)$s$s$s$s$s$($tc.txt.rst)  $($SL_Logo_C)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)       $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)               $($SL_icon_S)$s$s$s$s$s$s$s$s      $($SL_iconBorder)$s$s$s$s$s$($tc.txt.rst)                     $($SL_Logo_L)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_Logo_O)$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)      $($SL_Logo_G)$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)    $($SL_Logo_I)$s$s$s$s$s$($tc.txt.rst)    $($SL_Logo_C)$s$s$s$s$s$s$s$s$s$s$s$s$s$s$s$($tc.txt.rst)       $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)             $($SL_icon_S)$s$s$s$s$s$s$s$s   $($SL_iconBorder)$s$s$s$s$s$s$s$s$($tc.txt.rst)                                                                                                           $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)           $($SL_icon_S)$s$s$s$s$s$s$s$s   $($SL_iconBorder)$s$s$s$s$s$s$s$s$($tc.txt.rst)                                                                                                             $($tc.rst)`n"
+$slChars += "$($tc.bg.wht)          $($SL_icon_S)$s$s$s$s$s$s$s$($tc.txt.rst)                                                                                                                          $($tc.rst)`n"
 $slChars += "$($tc.bg.wht)                                                                                                                                           $($tc.rst)"
 
+# Printing logo
 Write-Host $slChars
 
+# Warning
 Write-Host "`n`n>> Eng: If it doesn't look right, make this window wider or maximize it."
 Write-Host ">> Esp: Si no se ve bien, haz esta ventana más ancha o maximízala."
-Write-Host "By ChyBeat @ PCBogota"
